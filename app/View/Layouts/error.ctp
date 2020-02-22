@@ -21,7 +21,6 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 <head>
 	<?php echo $this->Html->charset(); ?>
 	<title>
-		<?php echo $cakeDescription ?>:
 		<?php echo $this->fetch('title'); ?>
 	</title>
 	<?php

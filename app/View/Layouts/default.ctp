@@ -1,63 +1,108 @@
-<?php
-/**
- * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
- *
- * Licensed under The MIT License
- * For full copyright and license information, please see the LICENSE.txt
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
- * @link          https://cakephp.org CakePHP(tm) Project
- * @package       app.View.Layouts
- * @since         CakePHP(tm) v 0.10.0.1076
- * @license       https://opensource.org/licenses/mit-license.php MIT License
- */
-
-$cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework');
-$cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
-?>
 <!DOCTYPE html>
 <html>
 <head>
 	<?php echo $this->Html->charset(); ?>
-	<title>
-		<?php echo $cakeDescription ?>:
+	<title>	
 		<?php echo $this->fetch('title'); ?>
 	</title>
 	<?php
 		echo $this->Html->meta('icon');
 
-		echo $this->Html->css('cake.generic');
+		echo $this->Html->css('styles');
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
 		echo $this->fetch('script');
 	?>
+
+	<!-- CDN CSS  -->
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+	<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
 </head>
 <body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-white">
+            <div class="container">
+           
+				
+				<?php echo $this->Html->image('logo.png', array('alt' => 'CakePHP','class' => 'navbar-brand-img', 'border' => '0', 'width'=>'15%')); ?>
+		
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+        
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+ 
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fe fe-x"></i>
+                    </button> 
+               
+                    <ul class="navbar-nav ml-auto mr-5">
+                        <li class="nav-item">                           
+							
+							<?php 
+
+							echo $this->Html->link('Home',	array('controller' => 'pages','action' => 'index','full_base' => true),array('class'=>'nav-link'));
+
+							?>                
+                           
+                        </li>
+                        <li class="nav-item">
+                          
+							<?php 
+
+							if($user):
+								
+							echo $this->Html->link('Posts',	array('controller' => 'posts','action' => 'index','full_base' => true),array('class'=>'nav-link'));
+
+							endif
+
+							?>
+                        </li>
+                    </ul>
+				
+
+				<?php if($user): ?>
+
+					Hello,  <?php echo $user['first_name']; ?> (<?php echo $user['Group']['name'] ?>) Welcome back!
+
+					
+					<?php 
+					
+					echo $this->Form->postLink(__('Logout'), array('controller'=>'users','action' => 'logout'), array('class'=>'btn-sm btn-warning ml-2')); 
+
+					if($user['Group']['name'] == 'Author' || $user['Group']['name'] == 'Admin') :
+
+					echo $this->Html->link('Dashboard',	array('controller' => 'posts','action' => 'index','full_base' => true),array('class'=>'navbar-btn btn btn-sm btn-secondary ml-2 mr-3'));
+
+					endif
+					?>
+                    
+
+				<?php  else : ?>
+
+				
+					<?php 
+					echo $this->Html->link('Login',	array('controller' => 'users','action' => 'login','full_base' => true),array('class'=>'navbar-btn btn btn-sm btn-primary'));
+					?>
+				
+
+				<?php endif ?>
+                </div>
+            </div>
+        </nav>
 	<div id="container">
-		<div id="header">
-			<h1><?php echo $this->Html->link($cakeDescription, 'https://cakephp.org'); ?></h1>
-		</div>
+		
 		<div id="content">
 
 			<?php echo $this->Flash->render(); ?>
 
 			<?php echo $this->fetch('content'); ?>
 		</div>
-		<div id="footer">
-			<?php echo $this->Html->link(
-					$this->Html->image('cake.power.gif', array('alt' => $cakeDescription, 'border' => '0')),
-					'https://cakephp.org/',
-					array('target' => '_blank', 'escape' => false, 'id' => 'cake-powered')
-				);
-			?>
-			<p>
-				<?php echo $cakeVersion; ?>
-			</p>
-		</div>
+		
 	</div>
-	<?php echo $this->element('sql_dump'); ?>
 </body>
 </html>
