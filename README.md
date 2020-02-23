@@ -1,14 +1,14 @@
 # proBlogger
 
 
-A simple blogging platform built with cakePhp. 
+A simple blogging platform built with CakePHP. 
 
 
 ## Deployment
 
 - Clone the repo into your hosting's root directory (www)
 - create database - problogger
-- Duplicate app/Config/database.php.default as /app/Config/database.php and update with your database login details
+- Duplicate app/Config/database.php.default as app/Config/database.php and update with your database login details
 - Import problogger.sql into your database
 - Go to localhost/[problogger]/ - or replace the name [problogger] with your folder name (or your domain)
 
@@ -42,6 +42,8 @@ problogger has Overall test coverage of 68.29%.
 - Run 'composer install' to get PHPUnit installed
 - CakePHP comes with a web interface for running and analysing tests, visit localhost/problogger/test.php (or your domain/test.php)
 - Select the test you want to run from App 
+
+PS: If you are using the same browser to run the test, you should not be logged in, for the tests to successfully run.
 
 
 ## Built With
