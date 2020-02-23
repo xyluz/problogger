@@ -1,48 +1,48 @@
-# CakePHP
-
-[![Latest Stable Version](https://poser.pugx.org/cakephp/cakephp/v/stable.svg)](https://packagist.org/packages/cakephp/cakephp)
-[![License](https://poser.pugx.org/cakephp/cakephp/license.svg)](https://packagist.org/packages/cakephp/cakephp)
-[![Bake Status](https://secure.travis-ci.org/cakephp/cakephp.png?branch=master)](https://travis-ci.org/cakephp/cakephp)
-[![Code consistency](https://squizlabs.github.io/PHP_CodeSniffer/analysis/cakephp/cakephp/grade.svg)](https://squizlabs.github.io/PHP_CodeSniffer/analysis/cakephp/cakephp/)
-
-CakePHP is a rapid development framework for PHP which uses commonly known design patterns like Active Record, Association Data Mapping, Front Controller and MVC.
-Our primary goal is to provide a structured framework that enables PHP users at all levels to rapidly develop robust web applications, without any loss to flexibility.
+# proBlogger
 
 
-## Some Handy Links
-
-[CakePHP](https://cakephp.org) - The rapid development PHP framework
-
-[CookBook](https://book.cakephp.org) - THE CakePHP user documentation; start learning here!
-
-[API](https://api.cakephp.org) - A reference to CakePHP's classes
-
-[Plugins](https://plugins.cakephp.org) - A repository of extensions to the framework
-
-[The Bakery](https://bakery.cakephp.org) - Tips, tutorials and articles
-
-[Community Center](https://community.cakephp.org) - A source for everything community related
-
-[Training](https://training.cakephp.org) - Join a live session and get skilled with the framework
-
-[CakeFest](https://cakefest.org) - Don't miss our annual CakePHP conference
-
-[Cake Software Foundation](https://cakefoundation.org) - Promoting development related to CakePHP
+A simple blogging platform built with cakePhp. 
 
 
-## Get Support!
+## Deployment
 
-[#cakephp](https://webchat.freenode.net/?channels=#cakephp) on irc.freenode.net - Come chat with us, we have cake
+- Clone the repo into your hosting's root directory (www)
+- create database - problogger
+- Duplicate app/Config/database.php.default as /app/Config/database.php and update with your database login details
+- Import problogger.sql into your database
+- Go to localhost/[problogger]/ - or replace the name [problogger] with your folder name (or your domain)
 
-[Google Group](https://groups.google.com/group/cake-php) - Community mailing list and forum
+- There are 3 user groups: 
 
-[GitHub Issues](https://github.com/cakephp/cakephp/issues) - Got issues? Please tell us!
+** Admin : 
 
-[Roadmaps](https://github.com/cakephp/cakephp/wiki#roadmaps) - Want to contribute? Get involved!
+*** username: xyluz
+*** password: National1
+
+** Author :
+
+*** username: mike
+*** password: National1
+
+** Reader : 
+
+*** username: ola
+*** password: National1
+
+You can also create account as a Reader or Author. The admin can add more users, or create a new Admin user. The admin can also update any user from one group to another.
+
+Only authenticated user can view posts.
+
+## Unit Tests
+
+CakePHP comes with a web interface for run and analysing tests, visit localhost/problogger/test.php (or your domain/test.php)
+
+problogger has Overall test coverage of 68.29%.
 
 
-## Contributing
+## Built With
 
-[CONTRIBUTING.md](CONTRIBUTING.md) - Quick pointers for contributing to the CakePHP project
+- CakePHP
+- PHPUnit
+- Bootstrap 
 
-[CookBook "Contributing" Section (2.x)](https://book.cakephp.org/2.0/en/contributing.html) [(3.x)](https://book.cakephp.org/3.0/en/contributing.html) - Version-specific details about contributing to the project
