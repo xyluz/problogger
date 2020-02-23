@@ -35,7 +35,7 @@ Only authenticated user can view posts.
 
 ## Unit Tests
 
-CakePHP comes with a web interface for run and analysing tests, visit localhost/problogger/test.php (or your domain/test.php)
+CakePHP comes with a web interface for running and analysing tests, visit localhost/problogger/test.php (or your domain/test.php)
 
 problogger has Overall test coverage of 68.29%.
 
