@@ -1,14 +1,14 @@
 # proBlogger
 
 
-A simple blogging platform built with cakePhp. 
+A simple blogging platform built with CakePHP. 
 
 
 ## Deployment
 
 - Clone the repo into your hosting's root directory (www)
 - create database - problogger
-- Duplicate app/Config/database.php.default as /app/Config/database.php and update with your database login details
+- Duplicate app/Config/database.php.default as app/Config/database.php and update with your database login details
 - Import problogger.sql into your database
 - Go to localhost/[problogger]/ - or replace the name [problogger] with your folder name (or your domain)
 
