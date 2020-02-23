@@ -14,20 +14,20 @@ A simple blogging platform built with cakePhp.
 
 - There are 3 user groups: 
 
-** Admin : 
+**Admin : 
 
-*** username: xyluz
-*** password: National1
+- username: xyluz
+- password: National1
 
-** Author :
+**Author :
 
-*** username: mike
-*** password: National1
+- username: mike
+- password: National1
 
-** Reader : 
+**Reader : 
 
-*** username: ola
-*** password: National1
+- username: ola
+- password: National1
 
 You can also create account as a Reader or Author. The admin can add more users, or create a new Admin user. The admin can also update any user from one group to another.
 
