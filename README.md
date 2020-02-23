@@ -35,9 +35,13 @@ Only authenticated users can view posts.
 
 ## Unit Tests
 
-CakePHP comes with a web interface for running and analysing tests, visit localhost/problogger/test.php (or your domain/test.php)
-
 problogger has Overall test coverage of 68.29%.
+
+- Create a test database : test_problogger
+- Update database.php with your test database details
+- Run 'composer install' to get PHPUnit installed
+- CakePHP comes with a web interface for running and analysing tests, visit localhost/problogger/test.php (or your domain/test.php)
+- Select the test you want to run from App 
 
 
 ## Built With
