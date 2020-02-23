@@ -31,7 +31,7 @@ A simple blogging platform built with cakePhp.
 
 You can also create account as a Reader or Author. The admin can add more users, or create a new Admin user. The admin can also update any user from one group to another.
 
-Only authenticated user can view posts.
+Only authenticated users can view posts.
 
 ## Unit Tests
 
