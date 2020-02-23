@@ -33,7 +33,7 @@ You can also create account as a Reader or Author. The admin can add more users,
 
 Only authenticated users can view posts.
 
-## Unit Tests
+## Tests
 
 problogger has Overall test coverage of 68.29%.
 
