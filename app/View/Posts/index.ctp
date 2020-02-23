@@ -21,6 +21,8 @@
                     
                         <?php echo $this->Html->link(__('Manage Users'), array('controller' => 'users','action' => 'index','full_base' => true), array('class'=>'btn btn-dark')); ?>
 
+                        <?php echo $this->Html->link(__('Create Users'), array('controller' => 'users','action' => 'add','full_base' => true), array('class'=>'btn btn-secondary')); ?>
+
                 
                     <?php endif ?>
 

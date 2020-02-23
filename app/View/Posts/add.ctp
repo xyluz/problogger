@@ -25,14 +25,14 @@
 	<div class="row">
         <div class="col-8">
             <div class="form-group mb-5">               
-                <?php echo $this->Form->input('except',array('class'=>'form-control','placeholder'=>'Post Title')); ?>
+                <?php echo $this->Form->input('except',array('class'=>'form-control','placeholder'=>'Post Excerpt')); ?>
             </div>
         </div>
     </div>
 	<div class="row">
         <div class="col-8">
             <div class="form-group mb-5">               
-                <?php echo $this->Form->input('content',array('class'=>'form-control','placeholder'=>'Post Title')); ?>
+                <?php echo $this->Form->input('content',array('class'=>'form-control','placeholder'=>'Post Content')); ?>
             </div>
         </div>
     </div>

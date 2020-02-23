@@ -53,13 +53,29 @@ class UsersController extends AppController {
 		}
 
 		if ($this->request->is('post')) {
+
+			$checkIfUsernameExists = $this->User->find('count', array('conditions'  => array('user.username' => $this->request->data['User']['username'])));
+		
+			$checkIfEmailExists = $this->User->find('count', array('conditions'=>array('user.email'=>$this->request->data['User']['email'])));
+			
+			if($checkIfEmailExists){
+				$this->Flash->error(__('Email already in use'));
+				return $this->redirect(array('action' => 'add'));
+			}
+			if($checkIfUsernameExists){
+				$this->Flash->error(__('Username already exist'));
+				return $this->redirect(array('action' => 'add'));
+			}
+
 			$this->User->create();
+
 			if ($this->User->save($this->request->data)) {
 				$this->Flash->success(__('The user has been saved.'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
 				$this->Flash->error(__('The user could not be saved. Please, try again.'));
 			}
+
 		}
 
 		$groups = $this->User->Group->find('list', array('conditions'=>['name !=' => 'Admin']));

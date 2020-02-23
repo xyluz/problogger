@@ -10,6 +10,21 @@
     
                 <p class="mb-0 text-muted">
         Here’s what people are saying. </p>
+
+            <div class="mt-4">
+                    <?php echo $this->Html->link(__('Create Post'), array('action' => 'add'), array('class'=>'btn btn-success')); ?>
+                    <?php echo $this->Html->link(__('My Posts'), array('action' => 'myposts'), array('class'=>'btn btn-info')); ?>
+
+                    <?php if($user['Group']['name'] == 'Admin'): ?>
+                    
+                        <?php echo $this->Html->link(__('Manage Users'), array('controller' => 'users','action' => 'index','full_base' => true), array('class'=>'btn btn-dark')); ?>
+
+                        <?php echo $this->Html->link(__('Create Users'), array('controller' => 'users','action' => 'add','full_base' => true), array('class'=>'btn btn-secondary')); ?>
+
+                
+                    <?php endif ?>
+
+                </div>
             </div>
             
         </div>                 
