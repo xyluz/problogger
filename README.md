@@ -43,6 +43,8 @@ problogger has Overall test coverage of 68.29%.
 - CakePHP comes with a web interface for running and analysing tests, visit localhost/problogger/test.php (or your domain/test.php)
 - Select the test you want to run from App 
 
+PS: If you are using the same browser to run the test, you should not be logged in, for the tests to successfully run.
+
 
 ## Built With
 
