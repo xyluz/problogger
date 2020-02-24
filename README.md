@@ -35,8 +35,6 @@ Only authenticated users can view posts.
 
 ## Tests
 
-problogger has Overall test coverage of 68.29%.
-
 - Create a test database : test_problogger
 - Update database.php with your test database details
 - Run 'composer install' to get PHPUnit installed
