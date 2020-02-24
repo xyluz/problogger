@@ -116,7 +116,6 @@ public function tearDown() {
 			array('return' => 'contents', 'method' => 'get')
 		);
 		$this->assertNull($result); //un authenticated user cannot view this page
-
 			
 		$data = array(
 			'Post' => array(
@@ -148,7 +147,7 @@ public function tearDown() {
  *
  * @return void
  */
-	public function testEdit() {
+	public function testEditFails() {
 
 		$postId = '2';
 
@@ -175,6 +174,56 @@ public function tearDown() {
 
 		$this->assertContains('Edit Post', $result);
 
+		$data = array(
+			'Post' => array(
+				'title' => 'New Post Added',
+				'except' => 'Lorem ipsum dolor sit amet',
+				'content' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.'
+			),
+			'user_id'=>'1'	
+		);
+
+		$this->setExpectedException('NotFoundException');
+		$this->testAction(
+			'/posts/edit/'. $postId,
+			array('data' => $data, 'method' => 'put') //try to do this when not logged in
+		);
+
+
+	}
+
+	public function testEditSucceed() {
+
+		$postId = '2';
+		$data = array(
+			'title' => 'Post Added Edit',
+			'except' => 'Lorem ipsum dolor sit amet',
+			'content' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
+			'user_id'=>'1'	
+		);
+
+		$Posts = $this->generate('Posts',array(
+			'components' => array(
+				'Auth'
+			)));			
+
+		$Posts->Auth
+			->staticExpects($this->any())
+			->method('user')
+			->will($this->returnValue(1));
+
+		$result = $this->testAction(
+				'/posts/edit/'. $postId,
+				array('data' => $data, 'method' => 'post','return'=>'contents') //try to do this when not logged in
+			);
+	
+		$this->assertStringEndsWith("/posts", $this->headers['Location']);
+
+		$this->assertEquals(1, $this->Post->find('count', array(
+			'conditions' => array(
+				'Post.title' => 'Post Added Edit',
+			),
+		))); 	
 	}
 
 /**
