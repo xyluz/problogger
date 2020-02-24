@@ -65,14 +65,67 @@ class UsersControllerTest extends ControllerTestCase {
  *
  * @return void
  */
-	public function testFailAdd() {
+	public function testGetAdd() {
 
 		$result = $this->testAction(
 			'/users/add/',
 			array('return' => 'vars', 'method' => 'get')
 		);
-		$this->assertNull($result['user']); //un authenticated user cannot view this page
+		$this->assertArrayHasKey('groups',$result);
+		$this->assertNotNull($result); 		
 		
+	}
+
+	public function testAddFailUserEmailAlreadyUsed(){
+
+		$data = array(
+			'User' => array(
+				'first_name' => 'FirstName',
+				'last_name' => 'LastName',
+				'username' => 'flusername',
+				'email'=>'seyi@problogger.com',
+				'password'=>'password',
+				'group_id'=>'3'
+			)
+		);
+
+		$result = $this->testAction(
+			'/users/add/',
+			array('data' => $data, 'method' => 'post','return'=>'contents')
+		);
+		// $this->assertIdentical('una',$result);
+		$this->assertEquals(1, $this->User->find('count', array(
+			'conditions' => array(
+				'User.email' => 'seyi@problogger.com',
+			),
+		)));
+
+	}
+
+	public function testAddFailUsernameAlreadyUsed(){
+
+		$data = array(
+			'User' => array(
+				'first_name' => 'FirstName',
+				'last_name' => 'LastName',
+				'username' => 'seyiadmin',
+				'email'=>'seyip@problogger.com',
+				'password'=>'password',
+				'group_id'=>'3'
+			)
+		);
+
+		$result = $this->testAction(
+			'/users/add/',
+			array('data' => $data, 'method' => 'post','return'=>'contents')
+		);
+		// $this->assertIdentical('una',$result);
+		$this->assertEquals(1, $this->User->find('count', array(
+			'conditions' => array(
+				'User.username' => 'seyiadmin',
+			),
+		)));
+
 	}
 
 	public function testAddSucceed(){
