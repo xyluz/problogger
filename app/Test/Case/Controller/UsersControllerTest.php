@@ -218,8 +218,6 @@ class UsersControllerTest extends ControllerTestCase {
 				array('data' => $data, 'method' => 'post','return'=>'contents') //try to do this when not logged in
 			);
 	
-		// $this->assertStringEndsWith("/users", $this->headers['Location']);
-
 		$this->assertEquals(1, $this->User->find('count', array(
 			'conditions' => array(
 				'User.first_name' => 'FirstName_Edit',
@@ -295,27 +293,36 @@ class UsersControllerTest extends ControllerTestCase {
 
 	public function testLogin(){
 
-		// $data = array(
-		// 	'User' => array(
-		// 		'username' => 'seyiadmin',
-		// 		'password' => 'password'				
-		// 	)
-		// );
+		$User = $this->generate('Users',array(
+			'components' => array(
+				'Auth'=>array('user')
+			)));			
 
-		// $result = $this->testAction(
-		// 	'/users/login/',
-		// 	array('data' => $data, 'method' => 'post','return'=>'contents') //try to do this when not logged in
-		// );
+		$User->Auth
+		->staticExpects($this->any())
+		->method('user')
+		->will($this->returnValue(1));
+
+		$data = array(
+			'User' => array(
+				'username' => 'seyiadmin',
+				'password' => 'password'				
+			)
+		);
+
+		$result = $this->testAction(
+			'/users/login/',
+			array('data' => $data, 'method' => 'post') //try to do this when not logged in
+		);
 
 
-	// $this->assertStringEndsWith("/posts", $this->headers['Location']);
+	$this->assertStringEndsWith("/posts", $this->headers['Location']);
 
-	// $this->assertIdentical( 'Yes',$result );
-	// // $this->assertNotNull( $this->headers['Location'] );
-	// // $this->assertContains( 'posts', $this->headers['Location'] );
-	// // $this->assertNotContains( '"/users/login" id="UserLoginForm"', $result );
+	// $this->assertNotNull( $this->headers['Location'] );
+	// $this->assertContains( 'posts', $this->headers['Location'] );
+	// $this->assertNotContains( '"/users/login" id="UserLoginForm"', $result );
 
-	// $this->Users->Auth->logout();
+	$User->Auth->logout();
 
 	}
 
