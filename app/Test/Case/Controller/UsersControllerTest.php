@@ -188,6 +188,46 @@ class UsersControllerTest extends ControllerTestCase {
 
 	}
 
+	public function testEditSucceed(){
+
+		$userId = '2';
+
+		$data = array(
+			'User' => array(
+				'first_name' => 'FirstName_Edit',
+				'last_name' => 'LastName',
+				'username' => 'flusername',
+				'email'=>'first@gmail.com',
+				'password'=>'password',
+				'group_id'=>'3'
+			)
+		);
+
+		$Users = $this->generate('Users',array(
+			'components' => array(
+				'Auth'
+			)));			
+
+		$Users->Auth
+			->staticExpects($this->any())
+			->method('user')
+			->will($this->returnValue(1));
+
+		$result = $this->testAction(
+				'/users/edit/'. $userId,
+				array('data' => $data, 'method' => 'post','return'=>'contents') //try to do this when not logged in
+			);
+	
+		// $this->assertStringEndsWith("/users", $this->headers['Location']);
+
+		$this->assertEquals(1, $this->User->find('count', array(
+			'conditions' => array(
+				'User.first_name' => 'FirstName_Edit',
+			),
+		))); 	
+
+	}
+
 	public function testEditFailIdNotFount(){
 		$userId = '49999';
 
