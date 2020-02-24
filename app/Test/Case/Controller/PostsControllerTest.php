@@ -192,6 +192,27 @@ public function tearDown() {
 
 	}
 
+	public function testEditFailIdNotFount(){
+		$postId = '44000';
+
+		$Post = $this->generate('Posts',array(
+			'components' => array(
+				'Auth'=>array('user')
+			)));			
+
+		$Post->Auth
+		->staticExpects($this->any())
+		->method('user')
+		->will($this->returnValue(1));
+
+		$this->setExpectedException('NotFoundException');
+		
+		$this->testAction(
+			'/posts/edit/'.$postId,
+			array('return' => 'contents', 'method' => 'get')
+		);
+	}
+
 	public function testEditSucceed() {
 
 		$postId = '2';
