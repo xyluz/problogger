@@ -83,6 +83,11 @@ public function tearDown() {
 				
 	}
 
+/**
+ * testMyposts method
+ *
+ * @return void
+ */
 	public function testMyposts(){
 
 		$result = $this->testAction('/posts/myposts',array('return'=>'view', 'method' => 'get'));
@@ -143,7 +148,7 @@ public function tearDown() {
 
 
 /**
- * testEdit method
+ * testEditFails method
  *
  * @return void
  */
@@ -192,7 +197,13 @@ public function tearDown() {
 
 	}
 
-	public function testEditFailIdNotFount(){
+	/**
+ * testEditFailIdNotFound method
+ *
+ * @return void
+ */
+
+	public function testEditFailIdNotFound(){
 		$postId = '44000';
 
 		$Post = $this->generate('Posts',array(
@@ -212,6 +223,12 @@ public function tearDown() {
 			array('return' => 'contents', 'method' => 'get')
 		);
 	}
+
+/**
+ * testEditSucceed method
+ *
+ * @return void
+ */
 
 	public function testEditSucceed() {
 

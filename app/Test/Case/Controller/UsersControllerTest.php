@@ -17,11 +17,16 @@ class UsersControllerTest extends ControllerTestCase {
 		'app.post'
 	);
 
+/**
+ * setUp method
+ *
+ * @var array
+ */
 	public function setUp() {
 		parent::setUp();
 		$this->User = ClassRegistry::init('User');
 		$this->Group = ClassRegistry::init('Group');
-		$this->session = ClassRegistry::init('Session');
+		
 	
 	}
 
@@ -75,7 +80,12 @@ class UsersControllerTest extends ControllerTestCase {
 		$this->assertNotNull($result); 		
 		
 	}
-
+/**
+ * testAddFailUserEmailAlreadyUsed method
+ *
+ * @return void
+ */
+	
 	public function testAddFailUserEmailAlreadyUsed(){
 
 		$data = array(
@@ -102,6 +112,11 @@ class UsersControllerTest extends ControllerTestCase {
 
 	}
 
+/**
+ * testAddFailUsernameAlreadyUsed method
+ *
+ * @return void
+ */
 	public function testAddFailUsernameAlreadyUsed(){
 
 		$data = array(
@@ -128,6 +143,11 @@ class UsersControllerTest extends ControllerTestCase {
 
 	}
 
+	/**
+ * testAddSucceed method
+ *
+ * @return void
+ */
 	public function testAddSucceed(){
 
 			$data = array(
@@ -188,6 +208,12 @@ class UsersControllerTest extends ControllerTestCase {
 
 	}
 
+	/**
+ * testEditSucceed method
+ *
+ * @return void
+ */
+
 	public function testEditSucceed(){
 
 		$userId = '2';
@@ -226,6 +252,12 @@ class UsersControllerTest extends ControllerTestCase {
 
 	}
 
+
+	/**
+ * testEditFailIdNotFount method
+ *
+ * @return void
+ */
 	public function testEditFailIdNotFount(){
 		$userId = '49999';
 
@@ -265,6 +297,12 @@ class UsersControllerTest extends ControllerTestCase {
 		
 	}
 
+/**
+ * testDeleteSucceed method
+ *
+ * @return void
+ */
+
 	public function testDeleteSucceed(){
 
 		$userId = '1';
@@ -291,7 +329,12 @@ class UsersControllerTest extends ControllerTestCase {
 				
 	}
 
-	public function testLogin(){
+/**
+ * testLoginSucceed method
+ *
+ * @return void
+ */
+	public function testLoginSucceed(){
 
 		$User = $this->generate('Users',array(
 			'components' => array(
@@ -312,19 +355,48 @@ class UsersControllerTest extends ControllerTestCase {
 
 		$result = $this->testAction(
 			'/users/login/',
-			array('data' => $data, 'method' => 'post') //try to do this when not logged in
+			array('data' => $data, 'method' => 'post') 
 		);
 
 
 	$this->assertStringEndsWith("/posts", $this->headers['Location']);
 
-	// $this->assertNotNull( $this->headers['Location'] );
-	// $this->assertContains( 'posts', $this->headers['Location'] );
-	// $this->assertNotContains( '"/users/login" id="UserLoginForm"', $result );
 
 	$User->Auth->logout();
 
 	}
+
+/**
+ * testLoginFail method
+ *
+ * @return void
+ */
+
+	public function testLoginFail(){
+
+		$data = array(
+			'User' => array(
+				'username' => 'seyiadmin',
+				'password' => 'passwordfail'				
+			)
+		);
+
+		$result = $this->testAction(
+			'/users/login/',
+			array('data' => $data, 'method' => 'post') 
+		);
+
+		$this->assertNull($result);
+	
+	}
+
+	
+/**
+ * testLogout method
+ *
+ * @return void
+ */
+
 
 	public function testLogout(){
 		
