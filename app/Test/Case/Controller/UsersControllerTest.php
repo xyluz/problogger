@@ -17,6 +17,14 @@ class UsersControllerTest extends ControllerTestCase {
 		'app.post'
 	);
 
+	public function setUp() {
+		parent::setUp();
+		$this->User = ClassRegistry::init('User');
+		$this->Group = ClassRegistry::init('Group');
+		$this->session = ClassRegistry::init('Session');
+	
+	}
+
 /**
  * testIndex method
  *
@@ -57,24 +65,18 @@ class UsersControllerTest extends ControllerTestCase {
  *
  * @return void
  */
-	public function testAdd() {
+	public function testFailAdd() {
 
 		$result = $this->testAction(
 			'/users/add/',
 			array('return' => 'vars', 'method' => 'get')
 		);
 		$this->assertNull($result['user']); //un authenticated user cannot view this page
-
-		$Users = $this->generate('Users',array(
-			'components' => array(
-				'Auth'=>array('user')
-			)));
-
-			$user = $Users->Auth
-			->staticExpects($this->any())
-			->method('user')
-			->will($this->returnValue(1));			
 		
+	}
+
+	public function testAddSucceed(){
+
 			$data = array(
 				'User' => array(
 					'first_name' => 'FirstName',
@@ -82,16 +84,21 @@ class UsersControllerTest extends ControllerTestCase {
 					'username' => 'flusername',
 					'email'=>'first@gmail.com',
 					'password'=>'password',
-					'group_id'=>'1'
+					'group_id'=>'3'
 				)
 			);
 
 			$result = $this->testAction(
 				'/users/add/',
-				array('data' => $data, 'method' => 'post', 'return'=>'vars')
+				array('data' => $data, 'method' => 'post')
 			);
 
-			$this->assertArrayHasKey("user", $result);  
+			$this->assertEquals(1, $this->User->find('count', array(
+				'conditions' => array(
+					'User.email' => 'first@gmail.com',
+				),
+			))); 	
+
 	}
 
 /**
@@ -128,74 +135,110 @@ class UsersControllerTest extends ControllerTestCase {
 
 	}
 
+	public function testEditFailIdNotFount(){
+		$userId = '49999';
+
+		$User = $this->generate('Users',array(
+			'components' => array(
+				'Auth'=>array('user')
+			)));			
+
+		$User->Auth
+		->staticExpects($this->any())
+		->method('user')
+		->will($this->returnValue(1));
+
+		$this->setExpectedException('NotFoundException');
+		
+		$this->testAction(
+			'/users/edit/'.$userId,
+			array('return' => 'contents', 'method' => 'get')
+		);
+	}
+
 /**
  * testDelete method
  *
  * @return void
  */
-	public function testDelete() {
+	public function testDeleteFail() {
 
 		$userId = '4000';
 		$this->setExpectedException('NotFoundException');
 		$this->testAction(
 			'/users/delete/' . $userId,
 			array(
-				'method' => 'get'
-			)
-		);
-
-		$userId = '1';
-		$this->testAction(
-			'/users/delete/' . $userId,
-			array(
-				'method' => 'post'
+				'method' => 'delete'
 			)
 		);
 		
+	}
+
+	public function testDeleteSucceed(){
+
+		$userId = '1';
+
+		$User = $this->generate('Users',array(
+			'components' => array(
+				'Auth'=>array('user')
+			)));			
+
+		$User->Auth
+		->staticExpects($this->any())
+		->method('user')
+		->will($this->returnValue(1));
+
+		$result = $this->testAction(
+			'/users/delete/' . $userId,
+			array(
+				'method' => 'delete'
+			)
+		);		
+		
+		$this->assertStringEndsWith("/users", $this->headers['Location']);
 		$this->assertEquals(array(), $this->User->findById($userId));
+				
 	}
 
 	public function testLogin(){
 
-		// $this->enableCsrfToken();
-		// $this->enableSecurityToken();
+		// $data = array(
+		// 	'User' => array(
+		// 		'username' => 'seyiadmin',
+		// 		'password' => 'password'				
+		// 	)
+		// );
 
-		//TODO: Come back here - fix this for user login
-		// $this->Users = $this->generate( 'Users');
+		// $result = $this->testAction(
+		// 	'/users/login/',
+		// 	array('data' => $data, 'method' => 'post','return'=>'contents') //try to do this when not logged in
+		// );
 
-		// $Users = $this->generate('Users',array(
-		// 	'components' => array(
-		// 		'Auth'=>array('user')
-		// 	)));
 
-		// 	$Users->Auth
-		// 	->staticExpects($this->any())
-		// 	->method('user')
-		// 	->will($this->returnValue(3));
+	// $this->assertStringEndsWith("/posts", $this->headers['Location']);
 
-	// 	$data = array(
-	// 		'User' => array(
-	// 			'username' => 'seyiadmin',
-	// 			'password' => 'password'				
-	// 		)
-	// 	);
-
-	
-	// $result = $this->testAction( "/users/login", array(
-	// 		"method" => "post",
-	// 		"return" => "contents",
-	// 		"data" => $data
-	// 	)
-	// );
-
-	// $res[] = $this->view;
-	
-	// $this->assertIdentical( 'Yes',$res );
-	// $this->assertNotNull( $this->headers['Location'] );
-	// $this->assertContains( 'posts', $this->headers['Location'] );
-	// $this->assertNotContains( '"/users/login" id="UserLoginForm"', $res );
+	// $this->assertIdentical( 'Yes',$result );
+	// // $this->assertNotNull( $this->headers['Location'] );
+	// // $this->assertContains( 'posts', $this->headers['Location'] );
+	// // $this->assertNotContains( '"/users/login" id="UserLoginForm"', $result );
 
 	// $this->Users->Auth->logout();
+
+	}
+
+	public function testLogout(){
+		
+		$User = $this->generate('Users',array(
+			'components' => array(
+				'Auth'=>array('user')
+			)));			
+
+		$User->Auth
+		->staticExpects($this->any())
+		->method('user')
+		->will($this->returnValue(1));
+
+		$this->testAction('/users/logout',array('method'=>'get'));		
 
 	}
 
