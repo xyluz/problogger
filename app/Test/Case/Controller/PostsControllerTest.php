@@ -1,5 +1,6 @@
 <?php
 App::uses('PostsController', 'Controller');
+// App::uses('Post', 'Model');
 
 /**
  * PostsController Test Case
@@ -79,11 +80,28 @@ public function tearDown() {
 
 		$this->setExpectedException('NotFoundException');
 		$this->testAction('/posts/view/70',array('return'=>'vars'));
-		
-		
+				
+	}
+
+	public function testMyposts(){
+
 		$result = $this->testAction('/posts/myposts',array('return'=>'view', 'method' => 'get'));
 		$this->assertNull($result);  //check that only logged In Users can view myposts
-		
+
+
+		$Posts = $this->generate('Posts',array(
+			'components' => array(
+				'Auth'=>array('user')
+			)));
+
+			$Posts->Auth
+			->staticExpects($this->any())
+			->method('user')
+			->will($this->returnValue(1));
+
+			$result = $this->testAction('/posts/myposts',array('return'=>'contents', 'method' => 'get'));
+			$this->assertContains('My Posts',$result);  
+			
 	}
 
 /**
@@ -99,35 +117,28 @@ public function tearDown() {
 		);
 		$this->assertNull($result); //un authenticated user cannot view this page
 
-		$Users = $this->generate('Users',array(
-			'components' => array(
-				'Auth'=>array('user')
-			)));
-
-			$Users->Auth
-			->staticExpects($this->any())
-			->method('user')
-			->will($this->returnValue(3));
 			
+		$data = array(
+			'Post' => array(
+				'title' => 'New Post Added',
+				'except' => 'Lorem ipsum dolor sit amet',
+				'content' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
+				'user_id'=>'1'				
+			)
+		);
+
+		$result = $this->testAction(
+			'/posts/add/',
+			array('data' => $data, 'method' => 'post')
+		);
 		
-			$data = array(
-				'Post' => array(
-					'title' => 'New Post Added',
-					'except' => 'Lorem ipsum dolor sit amet',
-					'content' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.'
-				)
-			);
+		$this->assertStringEndsWith("/posts", $this->headers['Location']);
 
-			$this->testAction(
-				'/posts/add/',
-				array('data' => $data, 'method' => 'post')
-			);
-
-			$this->assertEquals(0, $this->Post->find('count', array(
-				'conditions' => array(
-					'Post.title' => 'New Post Added',
-				),
-			))); 
+		$this->assertEquals(1, $this->Post->find('count', array(
+			'conditions' => array(
+				'Post.title' => 'New Post Added',
+			),
+		))); 			
 	
 	}
 

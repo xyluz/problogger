@@ -75,7 +75,10 @@ class Post extends AppModel {
 	public function beforeSave($options = array()){
 		//Add LoggedIn User ID to the post
 		//TODO: Find better way to fetch loggedin user details : $this->Auth->user(); 
-		$this->data['Post']['user_id'] = AuthComponent::user('id'); 		
+		if(!$this->data['Post']['user_id']){
+			$this->data['Post']['user_id'] = AuthComponent::user('id'); 
+		}
+				
 		return true;
 
 	}
